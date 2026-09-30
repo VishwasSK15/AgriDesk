@@ -1,0 +1,170 @@
+AGRICULTURAL STORE BILLING & INVENTORYRecommended Technology Stack — 2026
+Offline-first desktop architecture based on PRD v2.0
+1. Recommendation at a Glance
+Because the product is defined as a desktop-first, offline-first application, the MVP should be built as a self-contained Windows desktop application rather than a traditional cloud/web application. The PRD already identifies React + TypeScript + Vite + Tailwind CSS, Electron, SQLite and Drizzle/Prisma as the recommended direction. This document refines that recommendation for the offline MVP.
+Layer
+Technology
+Justification
+Desktop shell
+Electron
+Provides a desktop application, filesystem access, OS integration and printer integration.
+Frontend
+React + TypeScript
+Component-based UI plus type safety for billing, inventory and financial data.
+Build tool
+Vite
+Fast development and production builds; no need for a server-rendered framework.
+Styling
+Tailwind CSS v4
+Fast and consistent UI development for the desktop interface.
+Backend
+No separate backend server
+A local single-machine MVP does not need an HTTP API or remote server.
+Application runtime
+Node.js inside Electron
+Supports local database access, filesystem operations, printing and application services.
+Database
+SQLite
+Reliable embedded relational database suitable for offline transactional workloads.
+ORM
+Drizzle ORM
+Lightweight, TypeScript-friendly and well suited to SQLite.
+Authentication
+Local username + password/PIN
+Enough for local access control without online account infrastructure.
+Password security
+Argon2id
+Secure password hashing for local credentials.
+State management
+Zustand
+Simple state management for cart, user session and UI state.
+Validation
+Zod
+Runtime validation for products, customers, invoices, payments and settings.
+Charts
+Recharts
+Suitable for sales and inventory dashboards.
+Printing
+Electron printer integration + thermal/A4 support
+Supports mandatory 58mm/80mm thermal and A4 invoice printing.
+Invoice/PDF
+Local PDF/invoice generation
+Provides A4 invoices and supplementary PDF copies.
+Deployment
+Windows Electron installer
+Install and operate locally without internet.
+Backup
+Local backup/restore with optional encryption
+Protects the local SQLite business database.
+2. Recommended Architecture
+The preferred architecture keeps the core application completely local. React renders the interface; Electron provides the desktop shell and Node.js runtime; the application/service layer performs business operations; Drizzle accesses SQLite; and Electron/native integration handles printing and local files.
+React + TypeScript + Vite + Tailwind CSS
+                 ↓
+Electron IPC / Application Services
+                 ↓
+Node.js runtime + business logic
+                 ↓
+Drizzle ORM
+                 ↓
+SQLite local database
+                 ↓
+Customers • Products • Sales • Inventory • Batches • Payments • Purchases • Audit Logs • Print Jobs
+3. Frontend — React + TypeScript + Vite + Tailwind CSS
+React is appropriate for the application's many screens and reusable components: Dashboard, POS/Billing, Customers, Products, Inventory, Purchases, Suppliers, Payments, Sales History, Reports, Sales Insights, Inventory Insights and Settings.
+TypeScript is especially valuable because the application handles quantities, prices, discounts, taxes, stock values, outstanding balances and payment records. Vite provides a fast development and build workflow. Tailwind CSS provides a consistent desktop-first interface without introducing unnecessary styling complexity.
+4. Desktop Layer — Electron
+Electron is the central platform choice. The application needs offline operation, local SQLite access, filesystem access, printer configuration, thermal/A4 printing, PDF generation and local backup/restore. Electron allows these capabilities to live in one installable desktop application.
+The application can be packaged as a Windows installer such as AgriculturalBilling-Setup.exe. The shop owner can install it and operate the system without opening a browser or depending on a remote server.
+5. Backend — No Separate Backend for the MVP
+A separate Express/Node.js HTTP backend should not be created for the offline MVP. A traditional React → Express API → database architecture would add unnecessary network/server dependencies.
+Instead, use React → Electron IPC/application services → Drizzle → SQLite. Node.js remains part of the Electron runtime and is used for business services, local data access, filesystem operations and printer integration.
+A remote backend can be introduced later when the product adds cloud synchronization, multi-device access, multi-store management or accountant access.
+6. Database — SQLite
+SQLite is the recommended database for the MVP because it is embedded, local, relational and designed for transactional workloads. It removes the need to install or operate a separate database server.
+It also supports the application's important transaction boundaries. Finalizing a sale can atomically create the sale and line items, update inventory, create stock movements, update the customer ledger and create a print job.
+The database should remain the source of truth for business records. React state should only represent temporary UI/application state such as the current cart or logged-in session.
+7. ORM — Drizzle ORM
+Drizzle ORM is preferred over a heavier abstraction because this system has a strongly relational model and needs clear control over SQLite queries and transactions. It also provides strong TypeScript integration.
+8. Authentication — Simple Local Username and Password
+A conventional online authentication system is not necessary for the offline MVP. There is no need for Google Login, OAuth, Firebase Auth, Auth0, email verification, JWT-based remote sessions or cloud identity management.
+The application should instead provide a local login screen with a username and password or PIN. Credentials must never be stored as plaintext. Store a password hash using Argon2id.
+The local user model should support the PRD's Admin and Staff distinction. Admin can access settings, backup, user management and unrestricted business functions; Staff can have limited access to products, inventory, reports and insights.
+9. Printing — Treat It as a Core Subsystem
+Printing must not be implemented as a simple optional browser print action. The PRD makes printing a mandatory part of the finalized-sale workflow.
+58mm thermal receipt support
+80mm thermal receipt support
+A4 GST invoice support
+PDF copy as a supplementary record
+Default printer configuration
+Print preview where appropriate
+Print attempt/result tracking
+Retry when the printer is unavailable
+Reprint from Sales History
+Preservation of the invoice if printing fails
+Recommended flow: Finalize Sale → Generate Invoice → Create Print Job → Send to Printer → Record Result → Complete or show Print Pending/Failed with Retry.
+10. Insights Engine — Deterministic First, AI Later
+The PRD explicitly requires explainable insights based on recorded business data. Therefore, the initial Sales Insights and Inventory Insights modules should use deterministic calculations rather than an external AI API.
+Sales change = current comparable period versus previous comparable period.
+Top products = ranking by quantity or sales value.
+Average bill = total sales divided by finalized sales count.
+Low stock = current quantity below configured reorder level.
+Fast moving = high sales velocity over a configured lookback period.
+Slow moving = low or zero movement over a configured lookback period.
+Expiry exposure = stock in batches inside the selected expiry window.
+Reorder suggestion = historical movement + current stock + configured lead time/safety stock, when sufficient data exists.
+If there is insufficient data, the application should explicitly say that there is not enough historical data rather than inventing a trend or recommendation. Future AI features can provide natural-language summaries, but they should remain assistive and must not silently modify invoices, inventory, prices or accounting records.
+11. State Management and Validation
+Use Zustand for lightweight application/UI state such as the current bill, selected customer, cart, held bills and session information. Use Zod for validation of products, customers, invoices, payments, purchases and settings.
+12. Backup and Restore
+Because the MVP is local, backup is a critical reliability feature. Provide manual backup and restore from the application, with optional scheduled backups later. Backups should contain customers, products, inventory, sales, purchases, suppliers, payments and settings. Encryption should be used where practical.
+A typical local layout could be: AppData/AgriculturalBilling/data/agricultural.db, with backups and logs stored under the application's local data directory.
+13. Deployment Strategy
+For the MVP, deployment means packaging the Electron application rather than deploying a website. Build a Windows installer and install the application directly on the shop computer.
+No Vercel deployment required for the core application.
+No Render/Railway/AWS backend required for the core application.
+No cloud database required for the MVP.
+Application data remains on the shop computer.
+Optional cloud services can be added later for backup, synchronization, messaging and multi-device access.
+14. Technologies to Avoid for the MVP
+Technology
+Reason to Avoid Initially
+MongoDB
+The data model is strongly relational and SQLite is more appropriate for a single-machine offline system.
+Express API
+No separate HTTP server is required for the local MVP.
+PostgreSQL
+Useful later for cloud synchronization and multi-device deployments, but unnecessary locally.
+Firebase/Supabase
+Would introduce cloud dependencies into a product whose core requirement is offline operation.
+Next.js
+Server rendering and web deployment are not necessary for the desktop-first product.
+JWT/OAuth
+No remote client/server authentication boundary exists in the local MVP.
+External AI APIs
+Would introduce internet dependency and are unnecessary for the deterministic initial insight engine.
+15. Final Locked MVP Stack
+Electron — desktop application shell
+React — frontend UI
+TypeScript — application language
+Vite — frontend build tool
+Tailwind CSS v4 — styling
+Node.js — local application/runtime services through Electron
+SQLite — local relational database
+Drizzle ORM — database access layer
+Local username/password or PIN — authentication
+Argon2id — password hashing
+Zustand — application/UI state
+Zod — validation
+Recharts — dashboard charts
+Electron/native printer integration — thermal and A4 printing
+Local PDF/invoice generation — invoice documents
+Local backup/restore — data protection
+Windows Electron installer — deployment
+16. Architecture Principle
+LOCAL-FIRST, NOT WEB-FIRST
+The core billing, inventory, customer, payment, ledger, reporting, basic insights and printing workflows should remain operational without internet. Internet-dependent capabilities such as cloud backup, synchronization, WhatsApp/SMS, external APIs, multi-device access and software updates should remain optional extensions.
+17. Recommended PRD Update
+Section 36 of PRD v2.0 should be refined to remove ambiguity around the optional backend:
+Application Runtime: Electron + Node.jsFrontend: React + TypeScript + Vite + Tailwind CSSDatabase: SQLiteDatabase Layer: Drizzle ORMAuthentication: Local username/password with Argon2id password hashingBackend: No separate backend server for MVPPrinting: Electron/native printer integrationCloud Backend: Deferred to a future version for synchronization and multi-device functionality
+18. Conclusion
+For this agricultural billing system, the strongest 2026 architecture is a self-contained Electron desktop application using React, TypeScript, Vite, Tailwind CSS, SQLite and Drizzle ORM. A simple local username/password system is sufficient for the initial deployment, provided passwords are securely hashed and roles are enforced. This architecture minimizes infrastructure, works without internet, supports mandatory physical printing, keeps business data local and leaves a clean path toward future cloud synchronization and multi-device features.

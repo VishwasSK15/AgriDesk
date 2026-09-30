@@ -1,0 +1,799 @@
+Agricultural Store Billing & Inventory Management System
+Updated Product Requirements Document (PRD) — Version 2.0
+Update highlights: Mandatory bill printing has been promoted to a core acceptance requirement. A new Sales Insights & Inventory Insights capability has been added to summarize business data and surface actionable, explainable observations.
+Target Platform: Desktop-first application with offline-first operation
+Primary User: Agricultural Store / Fertilizer & Pesticide Shop Owner
+Target Market: Agricultural input retailers in India
+1. Product Overview
+The Agricultural Store Billing & Inventory Management System is an offline-first billing, customer management, inventory, GST invoicing, purchasing, credit management and business-insights application designed specifically for agricultural product retailers.
+Maintain customer records locally.
+Create configurable GST invoices.
+Print a physical bill/receipt as a mandatory part of the completed-sale workflow.
+Search previous transactions by customer, mobile number, invoice, product and date.
+Track product stock automatically after sales, purchases and returns.
+Track batch, manufacturing date and expiry information.
+Monitor low-stock, out-of-stock and expiring products.
+Manage customer credit, payments and outstanding balances.
+Send payment reminders through supported SMS/WhatsApp integrations.
+Continue core billing operations without internet connectivity.
+Generate reports and summarize sales/inventory data into understandable business insights.
+Maintain supplier and purchase records.
+Provide explainable recommendations based on recorded business data rather than unsupported assumptions.
+2. Product Vision
+Build a practical agricultural retail operating system—not merely a billing application. The product should make counter billing fast, keep inventory reliable, preserve customer history, and help the shop owner understand what is happening in the business.
+Core principle: Fast enough for a busy billing counter, simple enough for a small shop owner, reliable enough for offline operation, and intelligent enough to summarize the shop's own sales and inventory data.
+3. Problem Statement
+Customer records are often maintained manually and are difficult to retrieve.
+Manual billing can be slow and error-prone.
+A bill may be generated but not consistently printed or handed to the customer.
+Inventory quantities can become inaccurate when sales and purchases are tracked separately.
+Agricultural products require useful batch and expiry visibility.
+Credit sales and outstanding balances are difficult to monitor.
+Internet connectivity can interrupt counter operations.
+Raw sales reports do not always tell a shop owner what changed or what deserves attention.
+Inventory reports show quantities but may not clearly explain fast-moving, slow-moving, dead-stock or replenishment patterns.
+4. Product Goals
+Goal
+Requirement / Target
+Fast Billing
+Typical standard bill completed within approximately 30–60 seconds.
+Mandatory Printing
+Every finalized sale must have a bill-print step before the transaction is considered operationally complete.
+Inventory Accuracy
+Automatically update stock for sales, purchases, returns and adjustments.
+Customer Records
+Searchable customer profiles, purchase history, payments and outstanding balances.
+Agricultural Product Tracking
+Product, category, brand, batch, expiry, unit, price and applicable tax information.
+Offline Operation
+Core billing and inventory functions work without internet.
+Sales Insights
+Summarize sales trends and highlight notable changes using recorded data.
+Inventory Insights
+Summarize stock health, movement, expiry and replenishment needs.
+Business Visibility
+Provide dashboards, reports and concise explanations instead of raw numbers only.
+5. Target Users
+Primary — Shop Owner
+Billing
+Customers
+Products
+Inventory
+Purchases
+Suppliers
+Payments
+Reports
+Insights
+Settings
+Secondary — Billing Staff
+Create bills
+Search products/customers
+Accept payments
+Print bills
+Limited access to reports, insights and configuration
+Future — Accountant
+Sales reports
+Purchase reports
+Tax summaries
+Payment records
+Outstanding balances
+6. Product Scope
+Dashboard
+Billing / POS
+Mandatory Bill Printing
+Customer Management
+Product Management
+Inventory Management
+Batch & Expiry Management
+Purchase Management
+Supplier Management
+Sales History
+Customer Ledger & Credit
+Payment Management
+GST Invoice Management
+Reports
+Sales Insights
+Inventory Insights
+Notifications & Reminders
+Backup & Restore
+User & Access Management
+Settings
+7. Dashboard
+Today's sales
+Number of bills
+Today's collections
+Total customer outstanding
+Current inventory value
+Low-stock items
+Expiring products
+Out-of-stock products
+Recent transactions
+Top sales/product snapshot
+High-priority inventory alerts
+Short natural-language summary of important changes
+Dashboard Insight Example
+Example: “Sales were higher than the previous comparable period, mainly due to increased fertilizer sales. Three products are below their reorder levels and two batches are approaching expiry.”
+The system must show the underlying figures or allow the user to open the relevant report. Insights should be explainable and traceable to stored data.
+8. Billing / POS
+The billing screen is the highest-priority workflow and must be optimized for speed, keyboard use, touch use, and minimal navigation.
+Billing Header
+Invoice number
+Invoice date
+Customer
+Mobile
+Payment type
+Counter user
+Payment Types
+Cash
+UPI
+Card
+Bank Transfer
+Credit
+Mixed Payment
+Product Search
+Name
+SKU/product code
+Barcode
+Manufacturer
+Category
+Batch
+Billing Line Items
+Field
+Description
+Product
+Product name
+Batch
+Selected batch
+Quantity
+Quantity sold
+Unit
+Bag / Kg / Litre / Piece etc.
+Rate
+Selling price
+Discount
+Amount or percentage
+Tax
+Configured applicable tax
+Taxable Value
+Value before tax
+Total
+Final line amount
+9. Mandatory Bill Printing — Core Requirement
+Bill printing is a mandatory product feature, not an optional convenience feature.
+Mandatory Completion Rule
+A sale may be saved as a draft/held bill without printing. However, a finalized sale must enter the Print Bill step. The normal successful-sale workflow is: Finalize Sale → Generate Invoice → Print Bill → Complete Transaction.
+Supported Outputs
+58mm thermal receipt
+80mm thermal receipt
+A4 GST invoice
+PDF copy as a supplementary digital record
+Printing Requirements
+Print button must be clearly visible on the final billing screen.
+Provide Save & Print / Finalize & Print as the primary completion action.
+Allow reprinting from Sales History.
+Allow selection/configuration of the default printer.
+Support print preview where appropriate.
+Handle printer unavailable/offline conditions with a clear recovery path.
+A local copy of the invoice must remain available even if printing fails.
+The system must distinguish 'invoice generated' from 'bill successfully printed' in the transaction/audit state where technically feasible.
+Recommended Print Flow
+User completes the cart.
+System validates stock, pricing, customer and tax configuration.
+User finalizes the sale.
+System creates the invoice transaction.
+System opens the print workflow automatically.
+Bill is sent to the configured printer.
+System records the print attempt/result.
+User can reprint the invoice later from Sales History.
+Important Edge Case
+If the printer is unavailable, the sale should not be silently lost. The application should preserve the finalized invoice and clearly show that printing is pending/failed, with an immediate Retry Print action. The business owner can configure whether a transaction is allowed to remain finalized after a print failure based on operational needs.
+10. Customer Management
+Customer ID, name, mobile, alternate mobile and address
+Village, taluk, district, state and pincode
+GSTIN where applicable
+Farm/business name
+Optional farm size and crop information
+Search by name, mobile, ID, village or GSTIN
+Purchase history
+Outstanding balance
+Payment history
+Invoice reprinting
+11. Customer Purchase History
+Customer profiles should show total purchases, total payments, outstanding balance, latest purchase and a chronological invoice list.
+Open any invoice
+Reprint bill
+View payment allocation
+View returned/cancelled transactions
+Export/print customer ledger
+12. Inventory Management
+Current stock
+Minimum/reorder level
+Maximum stock
+Purchase price
+Selling price
+MRP
+Unit
+Batch
+Expiry
+Manufacturer
+Supplier
+Stock valuation
+Stock movement history
+13. Agricultural Product Categories
+Fertilizers: Urea, DAP, MOP, NPK, SSP, complex and organic fertilizers
+Pesticides: Insecticides, herbicides, fungicides, nematicides and rodenticides
+Seeds: Vegetable, field crop, hybrid and certified seeds
+Crop nutrition: Micronutrients, bio-fertilizers, plant growth promoters and organic inputs
+Other agricultural products: Sprayers, nozzles, tools, irrigation accessories, PPE and farm consumables
+Categories must be editable by the owner.
+14. Product Master
+Group
+Fields
+Identification
+Product ID, name, SKU, barcode, category, subcategory, brand, manufacturer
+Agricultural
+Active ingredient/formulation where applicable, pack size, unit, crop/application information where appropriate
+Commercial
+Purchase price, selling price, MRP, discount, applicable tax configuration, HSN/SAC
+Inventory
+Current stock, minimum/maximum stock, reorder level
+Batch
+Batch number, manufacturing date, expiry date
+15. Batch & Expiry Management
+Multiple batches per product
+Batch-specific quantity and expiry
+FEFO (First Expiry, First Out) as a preferred default allocation strategy
+Expiry groups: expired, 0–30, 31–60, 61–90 and 90+ days
+Expiry dashboard and reports
+Authorized return/disposal/adjustment workflow
+No silent sale of expired stock
+16. Low Stock & Reorder Management
+Configurable reorder level
+Critical/low/normal/overstock status
+Low-stock dashboard
+Reorder list
+Optional suggested reorder quantity based on historical movement
+17. Purchase Management
+Supplier, purchase invoice number and purchase date
+Product, batch, expiry, quantity, purchase rate, tax, discount and total
+Finalize purchase to increase stock
+Purchase returns
+Supplier payment/outstanding tracking
+18. Supplier Management
+Supplier profile
+Contact details
+GSTIN
+Relevant license information
+Payment terms
+Purchase history
+Payments
+Outstanding
+Returns
+19. Sales Returns & Cancellation
+Select original invoice
+Select product and return quantity
+Record return reason
+Adjust inventory based on configured policy
+Update customer ledger/payment records
+Keep original invoice and reversal/audit history
+20. Customer Credit / Udhaar
+Credit limit
+Outstanding balance
+Partial payment
+Full payment
+Due dates
+Ledger statement
+Customer balance report
+21. Payment Reminders
+SMS
+WhatsApp
+In-app reminders
+Printable statements
+Configurable message templates
+Online messaging queue with retry when connectivity returns
+External SMS/WhatsApp delivery requires an appropriate provider/API. Core billing remains functional offline.
+22. Offline-First Operation
+Core Offline Functions
+Login
+Product search
+Customer search
+Create/save invoices
+Print locally
+Inventory updates
+Customer ledger
+Payment entry
+Sales history
+Basic reports
+Basic insights using locally available data
+Online-Dependent Functions
+Cloud backup
+Cloud synchronization
+WhatsApp/SMS
+External APIs
+Multi-device sync
+Software updates
+23. Sales Insights — New Core Module
+The system should transform recorded sales data into concise summaries and explainable insights. The purpose is not to replace reports, but to help the owner understand the reports quickly.
+Sales Summary
+Today's sales
+This week's sales
+This month's sales
+Comparison with previous comparable period
+Number of invoices
+Average bill value
+Total quantity sold
+Total discounts
+Payment-method split
+Credit versus paid sales
+Sales Trend Insights
+Sales increasing/decreasing compared with a selected comparable period
+Top-selling products by quantity and/or value
+Top-performing categories
+Products with unusually high or low sales compared with their own recent history
+Peak sales days or time periods where sufficient timestamp data exists
+Customer purchase concentration
+Credit sales trend
+Return/cancellation patterns
+Example Sales Insight
+“This month’s sales are ₹X, which is Y% higher/lower than last month. Fertilizers contributed the largest share of sales. Product A was the highest-selling item by quantity, while Product B generated the highest sales value.”
+Every generated insight should provide a path to the underlying data, such as View Sales Report or View Product Sales.
+24. Inventory Insights — New Core Module
+The inventory-insights module should explain stock health rather than only display quantities.
+Inventory Summary
+Total stock value
+Number of active products
+Number of out-of-stock products
+Number of low-stock products
+Number of overstocked products where thresholds are configured
+Number/value of expiring stock
+Number/value of expired stock
+Fast-moving products
+Slow-moving products
+Products with no recent movement
+Inventory Movement Insights
+Fast-moving items
+Slow-moving items
+Dead/low-movement stock based on configurable periods
+Stock consumption trends
+Products approaching reorder level
+Products with unusually high stock
+Batch-level expiry exposure
+Inventory value concentrated in particular categories/products
+Example Inventory Insight
+“12 products are below their reorder level. Urea has the highest recent sales velocity and may require replenishment sooner than other fertilizer products. ₹X of stock is approaching expiry within 60 days.”
+Inventory Actions
+View low-stock list
+View expiring list
+View slow-moving products
+View stock movement
+Create purchase draft from selected items
+Print/export inventory action report
+25. Insight Engine Requirements
+Insights should be based on deterministic calculations over the store's recorded data. The system should clearly distinguish facts, calculated comparisons and suggestions.
+Insight Type
+Example Logic
+Sales change
+Compare current period with previous comparable period.
+Top product
+Rank products by configured metric such as quantity or sales value.
+Average bill
+Total sales ÷ number of finalized sales.
+Low stock
+Current quantity below configured reorder level.
+Fast moving
+High sales velocity over a configured lookback period.
+Slow moving
+Low or zero movement over a configured lookback period.
+Expiry exposure
+Stock associated with batches inside selected expiry window.
+Reorder suggestion
+Historical movement + current stock + configured lead time/safety stock, where sufficient data exists.
+The insight engine must avoid presenting speculation as fact. When data is insufficient, it should say so—for example, 'Not enough historical sales data to identify a reliable trend.'
+26. Insights Dashboard UX
+Recommended layout:
+Overview cards
+Sales summary
+Sales trend chart
+Top products/categories
+Inventory health
+Low-stock actions
+Expiry actions
+Slow-moving stock
+Natural-language business summary
+View Details links
+Insights should be concise by default, with expandable details for users who want the numbers behind each conclusion.
+27. Reports
+Sales
+Daily/weekly/monthly/yearly sales
+Product-wise
+Customer-wise
+Category-wise
+Payment-method
+Tax summary
+Returns/cancellations
+Inventory
+Current stock
+Low/out of stock
+Expiring/expired
+Stock valuation
+Stock movement
+Batch-wise stock
+Fast/slow-moving
+Customer
+Purchases
+Outstanding
+Payment history
+Ledger
+Top customers
+Purchase
+Supplier-wise
+Product purchases
+Purchase expenses
+Purchase returns
+Financial
+Revenue
+Collections
+Outstanding
+Purchase cost
+Estimated gross margin
+Discounts
+Tax summaries
+28. Barcode, Label & Units
+Barcode scanning and lookup
+Internal SKU/barcode support
+Optional product labels
+Units: Piece, Kg, Gram, Quintal, Ton, Litre, Millilitre, Bag, Bottle, Packet, Box and Can
+Configurable unit conversions where appropriate
+29. Pricing
+Purchase price
+Selling price
+MRP
+Optional customer-specific pricing
+Bulk discount
+Seasonal discount
+Manual discount
+Optional retail/wholesale/dealer/farmer price tiers
+30. User Authentication & Permissions
+Feature
+Admin
+Staff
+Billing
+Yes
+Yes
+Bill Printing
+Yes
+Yes
+Customers
+Yes
+Yes
+Products
+Yes
+Limited
+Inventory
+Yes
+Limited
+Purchases
+Yes
+Optional
+Reports
+Yes
+Limited
+Insights
+Yes
+Limited
+Settings
+Yes
+No
+Backup
+Yes
+No
+User Management
+Yes
+No
+31. Audit Log
+Product creation/edit
+Invoice creation/finalization/cancellation
+Print attempts/results
+Stock adjustments
+Payment entries
+Price changes
+User and timestamp
+32. Security
+Password-protected accounts
+Role-based access
+Secure local database
+Encrypted backups where practical
+Session timeout
+Audit trail
+No hard-coded credentials
+Secure external API credentials
+33. UX & Keyboard Requirements
+Minimal clicks
+Keyboard-friendly billing
+Touch-friendly controls
+Clear totals
+Large primary actions
+Simple error messages
+No unnecessary animations on the billing counter
+Billing should support hold/resume for busy counters
+Shortcut
+Action
+F1
+New Bill
+F2
+Search Product
+F3
+Search Customer
+F4
+Payment
+F5
+Hold Bill
+F6
+Retrieve Held Bill
+F7
+Discount
+F8
+Print
+F9
+Save/Finalize
+Esc
+Close dialog
+34. Backup & Restore
+Manual backup
+Restore
+Backup customers, products, inventory, sales, purchases, suppliers, payments and settings
+Encrypted backup where appropriate
+Backup status indicator
+Automatic scheduled backups as optional functionality
+35. Data Model
+Entity
+Key Fields
+Users
+id, name, role, password_hash
+Customers
+id, name, mobile, address, GSTIN, outstanding
+Products
+id, name, SKU, category, unit, HSN, tax rate, reorder level
+Batches
+id, product_id, batch_number, manufacture_date, expiry_date, quantity
+Sales
+id, invoice_number, customer_id, date, subtotal, tax, discount, total, status, print_status
+SaleItems
+sale_id, product_id, batch_id, quantity, rate, tax
+Purchases
+id, supplier_id, invoice_number, date, total
+Payments
+id, customer_id, sale_id, amount, method, date
+Suppliers
+id, name, mobile, GSTIN, outstanding
+StockMovements
+id, product_id, batch_id, quantity, type, reference_id, timestamp
+PrintJobs
+id, sale_id, printer, status, attempts, timestamp
+AuditLogs
+id, user_id, action, timestamp
+36. Recommended Technology Stack
+Frontend: React + TypeScript + Vite + Tailwind CSS
+Desktop: Electron
+Local database: SQLite
+ORM/database layer: Drizzle ORM or Prisma
+Optional backend: Node.js + Express
+Optional cloud database: PostgreSQL
+PDF/invoice generation library
+Electron/native printer integration
+37. MVP — Version 1
+Dashboard
+Billing/POS
+Mandatory bill printing
+Customers and purchase history
+Products and pricing
+Inventory and automatic stock deduction
+Batch and expiry tracking
+Low-stock alerts
+Customer credit/outstanding
+Cash/UPI/card/credit/partial payment
+Sales history and reprint
+Offline local database
+Manual backup/restore
+Basic sales summary
+Basic inventory summary
+38. Version 2
+Supplier and purchase management
+Sales returns
+Advanced customer ledger
+Advanced reports
+Barcode scanning
+58mm/80mm thermal printing refinements
+WhatsApp invoice sharing
+SMS reminders
+Automated payment reminders
+Advanced batch management
+Full Sales Insights
+Full Inventory Insights
+39. Version 3
+Cloud synchronization
+Multi-device access
+Multi-store management
+Staff accounts and advanced permissions
+Automated backups
+Advanced analytics
+Forecasting
+Reorder suggestions
+Customer segmentation
+Mobile companion application
+Accountant access
+40. User Stories
+ID
+User Story
+US-01
+As a shop owner, I want to create a bill quickly so customers do not have to wait.
+US-02
+As a shop owner, I want the system to make bill printing part of the completed-sale workflow.
+US-03
+As a shop owner, I want to reprint a previous bill.
+US-04
+As a shop owner, I want to know when a bill was printed successfully or requires a retry.
+US-05
+As a shop owner, I want to search products by name or barcode.
+US-06
+As a shop owner, I want to save customer information.
+US-07
+As a shop owner, I want to see customer purchase history and outstanding.
+US-08
+As a shop owner, I want stock to decrease automatically after a sale.
+US-09
+As a shop owner, I want stock to increase after purchases.
+US-10
+As a shop owner, I want batch and expiry tracking.
+US-11
+As a shop owner, I want to sell products on credit and record partial payments.
+US-12
+As a shop owner, I want billing to work without internet.
+US-13
+As a shop owner, I want to understand how sales changed without manually analyzing every report.
+US-14
+As a shop owner, I want to know which products and categories are driving sales.
+US-15
+As a shop owner, I want to know which inventory is moving quickly or slowly.
+US-16
+As a shop owner, I want to know which stock is approaching expiry.
+US-17
+As a shop owner, I want reorder/stock suggestions based on my historical data.
+US-18
+As a shop owner, I want every insight to be traceable to the underlying data.
+US-19
+As a shop owner, I want to know today's and this month's sales.
+US-20
+As a shop owner, I want to know which customers have outstanding payments.
+41. Success Metrics
+Metric
+Target
+Billing speed
+90% of standard bills completed within 60 seconds.
+Mandatory print workflow
+100% of finalized sales enter the bill-print workflow.
+Reprintability
+100% of finalized invoices remain available for reprint unless explicitly archived under policy.
+Search performance
+Product/customer search typically under 500ms on normal local hardware.
+Invoice generation
+Under 2 seconds under normal local conditions.
+Inventory accuracy
+≥99% recorded accuracy after legitimate adjustments/returns.
+Offline availability
+100% of core billing operations available offline.
+Customer retrieval
+Customer record searchable within approximately 3 seconds.
+Invoice correctness
+100% of invoices use configured pricing, tax, customer and product data correctly.
+Backup
+Normal store database backup completes in under 30 seconds.
+Sales insights
+Insights available for periods with sufficient transaction data.
+Insight traceability
+100% of factual insights link to or can reveal the underlying calculation/data.
+Insight transparency
+System explicitly indicates when data is insufficient for a reliable conclusion.
+Adoption
+≥90% of sales recorded through the system within first month.
+Customer digitization
+≥80% of active customers stored digitally within first month.
+Inventory digitization
+≥90% of active inventory represented digitally within first month.
+42. Non-Functional Requirements
+Fast startup and local search
+Atomic sales/inventory transactions
+Crash recovery and database integrity
+Secure customer and financial data
+Offline-first architecture
+Reliable local printing
+Responsive desktop-first interface
+Scalable reporting and insight calculations
+Future compatibility with web/mobile/multi-store architecture
+43. Critical Business Rules
+A finalized sale must enter the mandatory bill-print workflow.
+A finalized sale must automatically update stock.
+A cancelled sale must create appropriate reversal/adjustment records.
+Every stock modification must have a reason/reference.
+Expired products must be clearly identified and should not be silently sold.
+Invoice numbers must remain unique.
+Financial transactions should be reversed/cancelled rather than permanently deleted.
+Customer outstanding must be derived from the transaction ledger.
+Inventory must be auditable through stock movements or an equivalent mechanism.
+Offline transactions must have unique transaction IDs.
+Tax configuration must be editable/auditable rather than permanently hard-coded.
+Sales and inventory insights must be calculated from stored business data.
+Insights must distinguish measured facts from calculated comparisons and recommendations.
+The system must not claim a trend or recommendation when there is insufficient data.
+44. Important Edge Cases
+Printer unavailable after finalization: preserve invoice, mark print pending/failed, show Retry Print.
+Paper out or printer error: show actionable printer error without losing transaction.
+Out of stock: block sale unless authorized override is enabled.
+Insufficient stock: clearly show requested vs available.
+Expired batch: block or require authorized override based on policy.
+Customer without mobile: allow if permitted.
+Walk-in customer: provide generic customer profile.
+Internet failure: continue local billing and printing.
+Power failure: transactional writes and recovery mechanisms minimize data loss.
+Insufficient sales history: show 'not enough data' rather than inventing trends.
+Inventory with no movement history: avoid labeling it as slow-moving until the configured observation window is met.
+45. Development Roadmap
+Phase
+Scope
+Phase 1 — Foundation
+Project setup, database, authentication, application shell, products and customers
+Phase 2 — Billing
+POS, product/customer search, cart, tax, payment, invoice generation
+Phase 3 — Mandatory Printing
+Thermal/A4 printing, print status, retry, reprint, printer configuration
+Phase 4 — Inventory
+Stock, batch, expiry, adjustments and low-stock alerts
+Phase 5 — Customer & Credit
+Profiles, purchase history, ledger, outstanding and payment collection
+Phase 6 — Purchases
+Suppliers, purchase invoices, stock entry and supplier balances
+Phase 7 — Reports
+Sales, inventory, customer, purchase and financial reports
+Phase 8 — Insights
+Sales summaries, trends, top products, inventory health, slow-moving and expiry insights
+Phase 9 — Offline & Reliability
+SQLite, recovery, backup, restore and sync foundation
+Phase 10 — Communication
+WhatsApp, SMS, payment reminders and invoice sharing
+Phase 11 — Advanced
+Barcode, cloud sync, multi-store, forecasting and advanced analytics
+46. MVP Acceptance Criteria
+Create a product and add opening stock.
+Create a customer.
+Create a sale and select the customer.
+Add products and quantities.
+Calculate configured taxes and discounts.
+Accept payment or record credit.
+Finalize the sale.
+Automatically open the mandatory print workflow.
+Print the bill or preserve a clear print-pending/failed state with Retry Print.
+Store the invoice for later reprint.
+Automatically reduce inventory.
+Update customer purchase history and outstanding.
+Search the customer and review previous purchases.
+View inventory, batch and expiry information.
+Continue the core workflow offline.
+View a basic sales summary and inventory-health summary.
+Create and restore a backup.
+47. Future AI / Advanced Analytics
+Natural-language business summaries
+Sales forecasting based on historical data
+Inventory duration/reorder suggestions
+Natural-language search such as 'Show Ramesh's purchases from September'
+Natural-language inventory queries such as 'Which products expire next month?'
+Anomaly detection for unusual sales or stock movements
+Advanced analytics and AI should remain assistive. They should never silently modify inventory, invoices, prices or accounting records. Any recommendation should be explainable and require user action before changing business data.
+48. Final Product Vision
+The final product should combine POS billing, agricultural inventory management, customer credit management, mandatory physical bill printing, and understandable business intelligence in one offline-first application.
+The owner should be able to answer five questions quickly:
+What did I sell today?
+Who bought what and what do they still owe?
+What stock do I have right now?
+What stock needs attention because it is low, slow-moving or expiring?
+What changed in my business recently, and what does the recorded data suggest I should look at?
+The system should answer these questions using clear figures, concise summaries and traceable calculations—not unexplained or speculative conclusions.

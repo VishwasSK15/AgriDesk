@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --color-primary: #123F7A;
+    --color-primary-dark: #0D2D57;
+    --color-agri: #2D6A4F;
+    --color-agri-light: #EDF7EE;
+    --color-background: #F4F6F9;
+    --color-surface: #FFFFFF;
+    --color-surface-subtle: #EDF0F5;
+    --color-text-main: #111827;
+    --color-text-muted: #374151;
+    --color-text-subtle: #4B5563;
+    --color-border: #D1D5DB;
+    --color-warning: #B45309;
+    --color-danger: #DC2626;
+  }
+
+  .dark {
+    --color-primary: #6EA8FE;
+    --color-primary-dark: #3F7D4A;
+    --color-agri: #72B77E;
+    --color-agri-light: #1A2E20;
+    --color-background: #10151C;
+    --color-surface: #18212B;
+    --color-surface-subtle: #202A35;
+    --color-text-main: #F9FAFB;
+    --color-text-muted: #CBD5E1;
+    --color-text-subtle: #94A3B8;
+    --color-border: #374151;
+    --color-warning: #FBBF24;
+    --color-danger: #F87171;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+  }
+
+  /* Custom scrollbar for desktop dense tables */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 3px;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #64748b;
+  }
+
+  /* Robust Print Styles for Thermal & A4 Invoices */
+  @media print {
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    body * {
+      visibility: hidden;
+    }
+    #printable-invoice,
+    #printable-invoice * {
+      visibility: visible;
+    }
+    #printable-invoice {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      border: none !important;
+      box-shadow: none !important;
+      background: white !important;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .print-only {
+      display: block !important;
+    }
+  }
+}

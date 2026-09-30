@@ -1,0 +1,223 @@
+AGRICULTURE SHOP BILLING SOFTWARE
+Design System & UI Direction
+Reference-led aesthetic • Minimal • Practical • Offline-first
+1. Design Direction
+The interface should take the strongest qualities from the supplied invoicing references: a structured business dashboard, compact navigation, clear tables, restrained cards, strong primary actions, and highly readable invoice documents. The agriculture context should be introduced through a restrained green accent rather than a colorful “farm” visual style.
+Minimalistic and professional — the UI should feel like business software, not a marketing website.
+Fast to understand — important numbers, stock states, billing actions and payment status should be visible immediately.
+Low visual noise — avoid gradients, excessive illustrations, glassmorphism and large decorative elements.
+Practical first — optimize for a shop counter/laptop workflow where the operator performs repeated billing and stock tasks.
+Consistent — the same spacing, typography, buttons, tables and status treatments should appear throughout the app.
+2. Reference Analysis
+Across the references, the recurring design language is:
+Deep navy/blue is used for the application chrome, page headers and primary actions.
+White/light-gray surfaces create a clean workspace with strong content separation.
+Pale lavender/blue table and card backgrounds are used sparingly to soften dense business screens.
+Green is reserved for successful/paid states and positive actions; red is reserved for stock alerts, overdue invoices and destructive actions.
+Rounded rectangles are common, but the radius remains moderate rather than highly playful.
+Tables are dense but readable, with clear column hierarchy and compact row actions.
+Icons are simple line icons with small colored containers.
+Typography is modern sans-serif, medium/bold for headings and regular for supporting information.
+Primary workflows use obvious filled buttons while secondary actions remain outlined or icon-only.
+Large white space is used around major sections so the interface does not feel crowded.
+3. Visual Identity for the Agriculture Version
+Use the reference application's business-software foundation, then make the product feel agriculture-specific through naming, iconography and one restrained green accent.
+Token
+Light Theme
+Dark Theme
+Usage
+Primary
+#123F7A
+#6EA8FE
+Header, primary buttons, active navigation
+Agriculture Accent
+#3F7D4A
+#72B77E
+Positive inventory actions, healthy stock, selected agriculture states
+Background
+#F6F7F9
+#10151C
+Application workspace
+Surface
+#FFFFFF
+#18212B
+Cards, panels, dialogs
+Subtle Surface
+#F3F5F8
+#202A35
+Table headers, secondary areas
+Text
+#1F2937
+#F3F4F6
+Primary text
+Muted Text
+#667085
+#AAB4C0
+Labels, helper text, metadata
+Border
+#E1E5EA
+#303B47
+Inputs, tables, cards
+Warning
+#C77700
+#E2A83B
+Low stock, due soon
+Danger
+#D64545
+#F06B6B
+Out of stock, overdue, delete
+Color rule: keep most of the interface neutral. Blue + muted green should carry the product identity; orange/red should communicate state only.
+4. Theme Strategy
+Support two themes from the start:
+Light theme: default business environment — white surfaces, very light gray workspace, navy navigation/header and muted green accents.
+Dark theme: same structure and hierarchy, with charcoal surfaces and lighter text. Do not simply invert every color.
+Theme switching should preserve semantic colors: green = positive, amber = warning, red = critical.
+Avoid pure black (#000) and pure white everywhere; use softened neutrals for comfortable long sessions.
+5. Typography
+Level
+Specification
+Purpose
+Font family
+Inter (or Geist Sans)
+Clean, highly readable business UI
+Page title
+20–24 px / 600
+Screen identity
+Section title
+15–18 px / 600
+Major content grouping
+Body
+14 px / 400
+Forms, descriptions and normal content
+Compact text
+12–13 px / 400–500
+Table metadata, helper text, timestamps
+Numbers
+16–24 px / 600–700
+Dashboard metrics and totals
+6. Application Layout
+Desktop-first shell: fixed left sidebar + top page header + scrollable content workspace.
+Sidebar width: approximately 220–240 px.
+Top header: approximately 52–60 px; keep it visually quiet.
+Main content max width: approximately 1200–1400 px, centered when the screen is wide.
+Use a consistent 8 px spacing system: 8 / 12 / 16 / 24 / 32 px.
+Cards should normally use 10–12 px radius and a subtle 1 px border; use shadows only where elevation is needed.
+Avoid nested cards wherever possible.
+7. Navigation
+Recommended primary navigation:
+Dashboard
+New Bill
+Bills / Invoices
+Products & Inventory
+Customers
+Suppliers
+Reports & Insights
+Settings
+Keep the active item as a soft blue background with a small primary-color indicator. Do not use a different color for every navigation item.
+8. Dashboard Design
+Compact welcome/header strip with current date and shop context.
+Four to six metric cards maximum: Today's Sales, Bills Today, Outstanding, Total Products, Low Stock, optionally Customers.
+Use small icon containers rather than large illustrations.
+Inventory alerts should appear below the metrics: Out of Stock and Low Stock.
+Sales summary should use a simple chart with minimal gridlines and one primary data color.
+Inventory summary should show top low-stock products and fast-moving items.
+Insights should be written as short sentences, e.g. “Fertilizer sales increased this week” rather than filling the screen with charts.
+9. Billing / New Bill Screen
+Make this the fastest screen in the application.
+Customer selection at the top, with a simple “Walk-in Customer” option.
+Product search should be prominent and keyboard-friendly.
+Selected items appear in a clean table: Item, Qty, Rate, Discount, Tax, Amount, Remove.
+Show stock availability immediately when a product is selected.
+Keep totals in a visually distinct but simple right-side or bottom summary panel.
+Primary action: Save & Print Bill. Secondary action: Save Bill / Save Draft.
+Printing is a mandatory workflow: after successful billing, show Print Bill clearly and keep it available from invoice history.
+10. Invoice / Bill Document
+Use a white document surface even inside the application.
+Shop logo/name at top left; invoice number/date at top right.
+Seller and customer blocks below the header.
+Item table with strong column labels and restrained borders.
+Subtotal, discount, tax and grand total aligned on the right.
+Payment information/UPI QR can sit below the totals when configured.
+Keep the printed bill black/gray with the primary blue used only for small branding elements so it remains economical and readable when printed.
+The print preview should closely match the final printed/PDF output.
+11. Inventory & Product Management
+Table-first layout similar to the reference invoice/customer screens.
+Columns: Product, Category, Unit, HSN/SKU, Purchase Rate, Selling Rate, Stock, Reorder Level, Status.
+Use compact status badges: In Stock, Low Stock, Out of Stock.
+Product creation/editing should use a simple two-column form on desktop and one column on smaller screens.
+For agricultural products, allow fields such as batch number, expiry date, manufacturer/brand and applicable tax where required by the PRD.
+Never use red as a general product color; reserve it for stock-critical states.
+12. Customer & Supplier Management
+Follow the reference customer-management pattern: add form on the left, searchable table on the right.
+Search should be visible without opening a filter panel.
+Use pagination for large datasets.
+Row actions should be icon buttons with tooltips: View, Edit, Delete.
+Supplier records should support purchase/inventory workflows without introducing a separate visual language.
+13. Reports & Sales Insights
+Keep analytics simple and operational rather than dashboard-heavy.
+Core views: Sales Summary, Product Sales, Profit/Margin Summary if supported by the data, Outstanding Payments, Inventory Movement.
+Date filters should be easy: Today, This Week, This Month, Custom.
+Use one main chart at a time with supporting numeric cards.
+AI/summary-style insights, if included, should appear as short neutral observations with the underlying period clearly shown.
+Inventory insights should highlight low stock, dead/slow-moving stock and fast-moving products where data supports it.
+14. Component Style
+Buttons: 8–10 px radius, medium weight, clear labels. Primary = navy; positive inventory action = muted green.
+Inputs: 40–44 px height, light border, clear focus ring, subtle background.
+Tables: 44–52 px row height, light separators, sticky header when useful.
+Badges: small, lightly tinted background with matching text; avoid saturated fills.
+Dialogs: centered, white/dark surface, 12–16 px radius, clear title and primary action.
+Toasts: compact bottom/right notification with semantic color.
+Icon buttons: 32–36 px square, simple line icons, tooltip on hover.
+Empty states: short explanation + one primary action; avoid illustrations unless necessary.
+15. Iconography
+Use one consistent line-icon library such as Lucide.
+Prefer familiar symbols: receipt, package, warehouse/box, users, truck, chart, settings, printer.
+Agriculture-specific icons should be used sparingly — leaf, seed, sprout or field icons can identify categories, not decorate every screen.
+Icon stroke weight should remain consistent.
+16. Responsive Behaviour
+Desktop: persistent sidebar and full tables.
+Tablet: narrower sidebar or collapsible sidebar; tables may become horizontally scrollable.
+Mobile: sidebar becomes a drawer; metric cards become a 2-column grid; billing totals remain easy to reach.
+Do not shrink dense tables until they become unreadable. Prefer horizontal scrolling or a mobile row/card representation.
+Touch targets should be at least about 40–44 px.
+17. What to Avoid
+Do not use multiple bright accent colors just to make screens look lively.
+Do not use heavy gradients, glassmorphism or oversized shadows.
+Do not turn every metric into a colorful card.
+Do not hide primary billing actions inside menus.
+Do not overload the dashboard with charts.
+Do not use decorative agricultural imagery in operational screens.
+Do not create different button styles for every page.
+18. Overall UI Recipe
+Think: “modern offline accounting software with a subtle agricultural identity.” The visual hierarchy should be approximately 80% neutral surfaces and typography, 15% navy/blue brand UI, and 5% semantic green/amber/red states. The result should feel calm, reliable and quick to operate.
+19. Suggested Screen Set
+Screen
+Primary Content
+Key Action
+Dashboard
+Sales, bills, stock alerts, outstanding, insights
+Open bill / restock
+New Bill
+Customer + product cart + totals + payment
+Save & Print
+Bills
+Searchable invoice history + status + actions
+View / Print / Export
+Products
+Product catalog + stock + batch/expiry
+Add / Restock
+Customers
+Customer directory + balances
+Add Customer
+Suppliers
+Supplier directory + purchase history
+Add Supplier
+Reports
+Sales and inventory summaries
+Filter / Export
+Settings
+Shop, tax, invoice, printer and backup settings
+Save Settings
+20. Final Design Principle
+Simple enough for daily billing. Detailed enough for business control.
+Every screen should answer three questions quickly: What is happening? What needs attention? What can I do next? If a visual element does not help answer one of these questions, it should probably be removed.
