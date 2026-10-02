@@ -56,7 +56,7 @@ export const Sidebar: React.FC<Props> = ({ currentTab, onSelectTab }) => {
           </div>
           <div className="min-w-0">
             <h1 className="text-xs font-bold text-[#111827] dark:text-[#F9FAFB] truncate tracking-tight">
-              AgriStore POS
+              AgriDesk POS
             </h1>
             <p className="text-[10px] text-gray-600 dark:text-slate-300 font-medium truncate">
               Retail & Inventory

@@ -1,4 +1,4 @@
-# Agricultural Store Billing & Inventory Management System (AgriStore)
+# AgriDesk — Agricultural Store Billing & Inventory Management System
 
 A production-grade, offline-first desktop application designed specifically for Indian agricultural input retailers (fertilizer, pesticide, and seed dealers). Built with **Electron**, **React 19**, **TypeScript**, **Tailwind CSS**, and **SQLite (better-sqlite3)**.
 
@@ -82,8 +82,8 @@ agri/
 
 1. Clone or extract the repository:
    ```bash
-   git clone https://github.com/VishwasSK15/agri.git
-   cd agri
+   git clone https://github.com/VishwasSK15/AgriDesk.git
+   cd AgriDesk
    ```
 
 2. Install dependencies:

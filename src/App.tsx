@@ -76,7 +76,7 @@ export const App: React.FC = () => {
           <div className="w-10 h-10 rounded-xl bg-[#123F7A] text-white flex items-center justify-center font-bold text-lg animate-pulse">
             🌱
           </div>
-          <p className="text-xs font-semibold text-gray-500">Starting AgriStore POS Engine...</p>
+          <p className="text-xs font-semibold text-gray-500">Starting AgriDesk POS Engine...</p>
         </div>
       </div>
     );
@@ -93,7 +93,7 @@ export const App: React.FC = () => {
             </div>
             <div>
               <h1 className="text-base font-bold text-[#1F2937] dark:text-[#F3F4F6] tracking-tight">
-                AgriStore Billing
+                AgriDesk Billing
               </h1>
               <p className="text-xs text-gray-500">Offline Counter Sign-In</p>
             </div>

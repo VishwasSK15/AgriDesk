@@ -28,7 +28,7 @@ function createWindow() {
     maximizable: true,
     minimizable: true,
     closable: true,
-    title: 'AgriStore - Agricultural Store Billing & Inventory System',
+    title: 'AgriDesk - Agricultural Store Billing & Inventory System',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,

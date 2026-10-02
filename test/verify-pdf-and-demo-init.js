@@ -274,6 +274,11 @@ async function runPdfAndDemoVerification() {
     const contentStr = buf.toString('latin1');
     assert(contentStr.includes('%%EOF'), 'File must contain %%EOF marker');
 
+    if (sc.format === 'a4') {
+      const pageCount = (contentStr.match(/\/Type\s*\/Page\b[^s]/g) || []).length;
+      assert.strictEqual(pageCount, 1, `${sc.name} must fit on exactly 1 page (got ${pageCount})`);
+    }
+
     pass(sc.name, `Generated authentic PDF (${stat.size} bytes, format: ${sc.format})`);
   }
 

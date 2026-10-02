@@ -1,7 +1,7 @@
 {
-  "name": "agri",
+  "name": "agridesk",
   "version": "1.0.0",
-  "description": "Agricultural Store Billing & Inventory Management System",
+  "description": "Offline-first Windows billing, inventory, GST invoicing and farmer Khata management software for agricultural retailers.",
   "main": "dist-electron/main.js",
   "scripts": {
     "build:electron": "tsc -p tsconfig.electron.json",
@@ -17,7 +17,8 @@
     "test:reset-qa": "node test/reset-qa-env.js",
     "test:acceptance": "node test/verify-acceptance-fixes.js",
     "test:full": "node test/verify-full-acceptance.js",
-    "test:pdf": "electron test/verify-pdf-and-demo-init.js"
+    "test:pdf": "electron test/verify-pdf-and-demo-init.js",
+    "test:invoice-pdf": "electron test/verify-invoice-pdf-formatting.js"
   },
   "author": "VishwasSK15",
   "license": "MIT",

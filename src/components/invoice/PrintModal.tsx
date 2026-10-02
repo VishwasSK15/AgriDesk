@@ -133,13 +133,10 @@ export const PrintModal: React.FC<Props> = ({
     try {
       if (window.electronAPI) {
         const defaultFilename = `Invoice-${sale.invoice_number.replace(/[/\\?%*:|"<>]/g, '_')}.pdf`;
-        const invoiceEl = document.getElementById('printable-invoice');
-        const invoiceHtml = invoiceEl ? invoiceEl.innerHTML : undefined;
 
         const res = await window.electronAPI.savePDF({
           defaultFilename,
           format: printFormat,
-          invoiceHtml,
           sale,
           settings,
         });

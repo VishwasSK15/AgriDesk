@@ -7,191 +7,252 @@ interface Props {
 }
 
 export const InvoiceA4: React.FC<Props> = ({ sale, settings }) => {
+  const storeName = settings.store_name || 'AgriDesk Agricultural Inputs';
+  const tagline = settings.tagline || 'Fertilizers, Pesticides & Hybrid Seeds';
+  const address = settings.address || 'Main Road, APMC Yard, Mandya';
+  const mobile = settings.mobile || '9876543210';
+  const email = settings.email || '';
+  const gstin = settings.gstin || '29AAAAA0000A1Z5';
+  const state = settings.state || 'Karnataka';
+  const stateCode = settings.state_code || '29';
+  const dl1 = settings.dl_number_1 || '';
+  const dl2 = settings.dl_number_2 || '';
+  const bankName = settings.bank_name || 'State Bank of India';
+  const accountNo = settings.account_number || '30123456789';
+  const ifscCode = settings.ifsc_code || 'SBIN0001234';
+  const upiId = settings.upi_id || 'annapurna@sbi';
+  const terms = settings.terms_and_conditions || 
+    '1. Goods once sold will not be returned without original invoice.\n2. Store seed and chemical products in cool dry place.\n3. Subject to local jurisdiction.';
+
+  const invNumber = sale.invoice_number || 'INV-2026-0001';
+  const invDate = sale.sale_date ? sale.sale_date.substring(0, 10) : new Date().toISOString().substring(0, 10);
+  const placeOfSupply = sale.customer_village || state;
+  const paymentMode = (sale.payment_method || 'cash').toUpperCase();
+  const customerName = sale.customer_name || 'Walk-in Customer';
+  const customerMobile = sale.customer_mobile || '';
+  const customerVillage = sale.customer_village || '';
+  const customerAddress = sale.customer_address || '';
+  const customerGstin = sale.customer_gstin || '';
+
+  const subtotal = Number(sale.subtotal || 0).toFixed(2);
+  const discountNum = Number(sale.total_discount || 0);
+  const discount = discountNum.toFixed(2);
+  const taxNum = Number(sale.tax_amount || 0);
+  const cgst = (taxNum / 2).toFixed(2);
+  const sgst = (taxNum / 2).toFixed(2);
+  const roundOffNum = Number(sale.round_off || 0);
+  const roundOff = roundOffNum.toFixed(2);
+  const grandTotal = Number(sale.grand_total || 0).toFixed(2);
+  const paidAmount = Number(sale.paid_amount || 0).toFixed(2);
+  const balanceDueNum = Number(sale.balance_due || 0);
+  const balanceDue = balanceDueNum.toFixed(2);
+  const items = sale.items || [];
+
   return (
-    <div className="w-[794px] min-h-[1050px] p-8 bg-white text-black font-sans text-xs select-text mx-auto border border-gray-300 shadow-sm print:border-none print:shadow-none print:p-4">
-      {/* Title */}
-      <div className="text-center font-bold text-sm tracking-wide uppercase border-b-2 border-black pb-1 mb-2">
-        Tax Invoice / Cash Memo (Agricultural Inputs)
-      </div>
-
-      {/* Header Grid */}
-      <div className="grid grid-cols-2 border border-black p-3 mb-2 gap-4">
-        {/* Seller Info */}
-        <div>
-          <h1 className="text-base font-bold text-[#123F7A]">{settings.store_name}</h1>
-          {settings.tagline && <p className="text-[11px] font-semibold text-gray-700">{settings.tagline}</p>}
-          <p className="text-[11px] text-gray-800 mt-1">{settings.address}</p>
-          <p className="text-[11px] text-gray-800">Phone: {settings.mobile} | Email: {settings.email || '-'}</p>
-          <div className="mt-2 text-[11px] space-y-0.5">
-            <p><strong>GSTIN:</strong> {settings.gstin}</p>
-            <p><strong>State & Code:</strong> {settings.state} ({settings.state_code || '29'})</p>
-            {settings.dl_number_1 && <p><strong>Pesticide Lic No:</strong> {settings.dl_number_1}</p>}
-            {settings.dl_number_2 && <p><strong>Fertilizer Lic No:</strong> {settings.dl_number_2}</p>}
+    <div className="w-[794px] p-6 bg-white text-black font-sans text-xs select-text mx-auto border border-gray-300 shadow-sm print:border-none print:shadow-none print:p-2">
+      {/* Header Strip */}
+      <div className="flex justify-between border-b-2 border-[#123F7A] pb-2 mb-3 gap-4">
+        <div className="flex-1">
+          <h1 className="text-xl font-extrabold text-[#123F7A] tracking-tight">{storeName}</h1>
+          {tagline && <p className="text-[11px] font-semibold text-gray-700 mt-0.5">{tagline}</p>}
+          <p className="text-[10px] text-gray-800 mt-1">{address}</p>
+          <p className="text-[9.5px] text-gray-700 mt-0.5">Phone: <strong>{mobile}</strong>{email ? ` | Email: <strong>{email}</strong>` : ''}</p>
+          <div className="mt-1 text-[9.5px] text-gray-800 space-y-0.5">
+            <p>GSTIN: <strong>{gstin}</strong> | State: <strong>{state} ({stateCode})</strong></p>
+            {(dl1 || dl2) && (
+              <p>
+                {dl1 ? <>Pesticide Lic No: <strong>{dl1}</strong></> : null}
+                {dl1 && dl2 ? ' | ' : null}
+                {dl2 ? <>Fertilizer Lic No: <strong>{dl2}</strong></> : null}
+              </p>
+            )}
           </div>
         </div>
 
-        {/* Invoice Meta */}
-        <div className="text-right border-l border-gray-300 pl-4 space-y-1 text-[11px]">
-          <div className="bg-gray-100 p-2 border border-gray-300 rounded mb-2">
-            <p className="text-xs">Invoice Number:</p>
-            <p className="text-sm font-bold text-[#123F7A]">{sale.invoice_number}</p>
+        <div className="w-64 text-right">
+          <div className="inline-block bg-[#123F7A] text-white text-[10px] font-bold px-2.5 py-1 rounded-xs uppercase tracking-wider mb-2">
+            Tax Invoice / Cash Memo
           </div>
-          <p><strong>Invoice Date:</strong> {sale.sale_date.substring(0, 10)}</p>
-          <p><strong>Place of Supply:</strong> {sale.customer_village || settings.state}</p>
-          <p><strong>Payment Mode:</strong> <span className="uppercase font-semibold">{sale.payment_method}</span></p>
-          <p><strong>Reverse Charge:</strong> No</p>
+          <div className="border border-slate-300 rounded-sm p-1.5 bg-slate-50 text-[9.5px] space-y-1 text-left">
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Invoice Number:</span>
+              <span className="font-bold text-[#123F7A]">{invNumber}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Invoice Date:</span>
+              <span className="font-bold text-gray-900">{invDate}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Place of Supply:</span>
+              <span className="font-bold text-gray-900">{placeOfSupply}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Payment Mode:</span>
+              <span className="font-bold text-gray-900">{paymentMode}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-600 font-medium">Reverse Charge:</span>
+              <span className="font-bold text-gray-900">No</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Buyer Info */}
-      <div className="border border-black p-2.5 mb-2 bg-gray-50/50 text-[11px]">
-        <div className="font-bold text-xs border-b border-gray-300 pb-1 mb-1 text-gray-800">
-          Details of Receiver / Billed to (Farmer / Customer):
+      {/* Buyer / Customer Info */}
+      <div className="border border-slate-300 rounded-sm p-2 mb-2.5 bg-slate-50/80 text-[10px]">
+        <div className="font-bold text-[10px] text-[#123F7A] uppercase tracking-wide border-b border-slate-200 pb-1 mb-1">
+          Billed To (Details of Receiver / Farmer)
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p><strong>Name:</strong> {sale.customer_name}</p>
-            <p><strong>Mobile:</strong> {sale.customer_mobile || 'N/A'}</p>
-            {sale.customer_village && <p><strong>Village / Town:</strong> {sale.customer_village}</p>}
+          <div className="space-y-0.5">
+            <p><span className="text-gray-600 font-medium inline-block w-20">Name:</span> <strong className="text-gray-900">{customerName}</strong></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">Mobile:</span> <span className="font-semibold">{customerMobile || 'N/A'}</span></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">Village / Town:</span> <span className="font-semibold">{customerVillage || 'Local'}</span></p>
           </div>
-          <div>
-            {sale.customer_address && <p><strong>Address:</strong> {sale.customer_address}</p>}
-            <p><strong>GSTIN / UID:</strong> {sale.customer_gstin || 'Unregistered'}</p>
-            <p><strong>State:</strong> {settings.state}</p>
+          <div className="space-y-0.5">
+            <p><span className="text-gray-600 font-medium inline-block w-20">Address:</span> <span className="font-semibold">{customerAddress || 'Local Counter'}</span></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">GSTIN / UID:</span> <span className="font-semibold">{customerGstin || 'Unregistered'}</span></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">State:</span> <span className="font-semibold">{state} ({stateCode})</span></p>
           </div>
         </div>
       </div>
 
       {/* Line Items Table */}
-      <table className="w-full text-left border border-black mb-2 text-[10.5px]">
+      <table className="w-full text-left border-collapse border border-slate-300 mb-2.5 text-[10px]">
         <thead>
-          <tr className="bg-gray-100 border-b border-black font-semibold text-center">
-            <th className="p-1.5 border-r border-black w-8">#</th>
-            <th className="p-1.5 border-r border-black text-left">Description of Goods</th>
-            <th className="p-1.5 border-r border-black w-18">HSN/SAC</th>
-            <th className="p-1.5 border-r border-black w-20">Batch & Exp</th>
-            <th className="p-1.5 border-r border-black w-14">Qty</th>
-            <th className="p-1.5 border-r border-black w-16 text-right">Rate</th>
-            <th className="p-1.5 border-r border-black w-14 text-right">Disc</th>
-            <th className="p-1.5 border-r border-black w-18 text-right">Taxable</th>
-            <th className="p-1.5 border-r border-black w-12 text-center">GST%</th>
-            <th className="p-1.5 text-right w-20">Total (₹)</th>
+          <tr className="bg-slate-100 border-b border-slate-300 font-bold text-slate-800 text-[9px] uppercase tracking-wider text-center">
+            <th className="p-1.5 border border-slate-300 w-7">#</th>
+            <th className="p-1.5 border border-slate-300 text-left">Description of Goods</th>
+            <th className="p-1.5 border border-slate-300 w-16">HSN/SAC</th>
+            <th className="p-1.5 border border-slate-300 w-24">Batch & Exp</th>
+            <th className="p-1.5 border border-slate-300 w-14">Qty</th>
+            <th className="p-1.5 border border-slate-300 w-16 text-right">Rate</th>
+            <th className="p-1.5 border border-slate-300 w-14 text-right">Disc</th>
+            <th className="p-1.5 border border-slate-300 w-18 text-right">Taxable</th>
+            <th className="p-1.5 border border-slate-300 w-12 text-center">GST%</th>
+            <th className="p-1.5 border border-slate-300 text-right w-20">Total (₹)</th>
           </tr>
         </thead>
         <tbody>
-          {sale.items?.map((item, idx) => (
-            <tr key={idx} className="border-b border-gray-200">
-              <td className="p-1.5 border-r border-black text-center">{idx + 1}</td>
-              <td className="p-1.5 border-r border-black font-semibold">
-                {item.product_name}
-              </td>
-              <td className="p-1.5 border-r border-black text-center">{item.unit === 'Bag' ? '3102' : '3808'}</td>
-              <td className="p-1.5 border-r border-black text-center text-[9.5px]">
-                {item.batch_number || '-'}<br />
-                {item.expiry_date ? `Exp: ${item.expiry_date.substring(0, 7)}` : ''}
-              </td>
-              <td className="p-1.5 border-r border-black text-center font-medium">
-                {item.quantity} {item.unit}
-              </td>
-              <td className="p-1.5 border-r border-black text-right">₹{item.rate.toFixed(2)}</td>
-              <td className="p-1.5 border-r border-black text-right">{item.discount_amount ? `₹${item.discount_amount}` : '-'}</td>
-              <td className="p-1.5 border-r border-black text-right">₹{item.taxable_amount.toFixed(2)}</td>
-              <td className="p-1.5 border-r border-black text-center">{item.tax_rate}%</td>
-              <td className="p-1.5 text-right font-bold">₹{item.total_amount.toFixed(2)}</td>
-            </tr>
-          ))}
-          {/* Fill remaining empty rows for clean professional look */}
-          {Array.from({ length: Math.max(0, 5 - (sale.items?.length || 0)) }).map((_, i) => (
-            <tr key={`empty-${i}`} className="border-b border-gray-100 text-transparent select-none">
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1 border-r border-black">&nbsp;</td>
-              <td className="p-1">&nbsp;</td>
-            </tr>
-          ))}
+          {items.map((item, idx) => {
+            let hsn = (item as any).hsn_sac;
+            if (!hsn) {
+              if (item.product_name?.toLowerCase().includes('urea') || item.product_name?.toLowerCase().includes('dap') || item.product_name?.toLowerCase().includes('potash') || item.unit === 'Bag') {
+                hsn = '3102';
+              } else if (item.tax_rate === 18 || item.unit === 'Bottle') {
+                hsn = '3808';
+              } else if (item.product_name?.toLowerCase().includes('seed') || item.tax_rate === 0) {
+                hsn = '1209';
+              } else {
+                hsn = '3102';
+              }
+            }
+
+            const disc = Number(item.discount_amount || 0);
+
+            return (
+              <tr key={idx} className="border-b border-slate-200 odd:bg-white even:bg-slate-50/50">
+                <td className="p-1.5 border border-slate-300 text-center">{idx + 1}</td>
+                <td className="p-1.5 border border-slate-300 font-semibold text-slate-900">
+                  {item.product_name}
+                </td>
+                <td className="p-1.5 border border-slate-300 text-center font-mono text-[9px]">{hsn}</td>
+                <td className="p-1.5 border border-slate-300 text-center text-[9px]">
+                  <strong className="text-slate-900">{item.batch_number || '-'}</strong>
+                  {item.expiry_date && (
+                    <div className="text-slate-500 text-[8.5px]">Exp: {item.expiry_date.substring(0, 7)}</div>
+                  )}
+                </td>
+                <td className="p-1.5 border border-slate-300 text-center font-semibold">
+                  {item.quantity} {item.unit}
+                </td>
+                <td className="p-1.5 border border-slate-300 text-right">₹{item.rate.toFixed(2)}</td>
+                <td className="p-1.5 border border-slate-300 text-right text-slate-600">
+                  {disc > 0 ? `₹${disc.toFixed(2)}` : '-'}
+                </td>
+                <td className="p-1.5 border border-slate-300 text-right">₹{item.taxable_amount.toFixed(2)}</td>
+                <td className="p-1.5 border border-slate-300 text-center font-medium">{item.tax_rate}%</td>
+                <td className="p-1.5 border border-slate-300 text-right font-bold text-slate-900">₹{item.total_amount.toFixed(2)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
       {/* Summary and Bank Details Grid */}
-      <div className="grid grid-cols-2 gap-4 border border-black p-3 mb-2 text-[10.5px]">
+      <div className="grid grid-cols-2 gap-3 mb-2.5 text-[9.5px]">
         {/* Left: Bank Details & UPI */}
-        <div>
-          <div className="font-bold text-xs border-b border-gray-300 pb-1 mb-1">
-            Bank Details for Direct RTGS/NEFT:
+        <div className="border border-slate-300 rounded-sm p-2 bg-slate-50/80">
+          <div className="font-bold text-[9.5px] text-[#123F7A] uppercase tracking-wide border-b border-slate-200 pb-1 mb-1">
+            Bank Details for Direct RTGS/NEFT
           </div>
           <div className="space-y-0.5">
-            <p><strong>Bank Name:</strong> {settings.bank_name || 'State Bank of India'}</p>
-            <p><strong>A/C No:</strong> {settings.account_number || '30123456789'}</p>
-            <p><strong>IFSC Code:</strong> {settings.ifsc_code || 'SBIN0001234'}</p>
-            <p><strong>UPI ID:</strong> {settings.upi_id || 'annapurna@sbi'}</p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">Bank Name:</span> <strong>{bankName}</strong></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">Account No:</span> <strong>{accountNo}</strong></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">IFSC Code:</span> <strong>{ifscCode}</strong></p>
+            <p><span className="text-gray-600 font-medium inline-block w-20">UPI ID:</span> <strong>{upiId}</strong></p>
           </div>
           {sale.notes && (
-            <div className="mt-2 text-gray-700 bg-gray-50 p-1.5 border border-gray-200 rounded">
+            <div className="mt-1.5 text-slate-700 bg-white p-1 border border-slate-200 rounded text-[9px]">
               <strong>Notes:</strong> {sale.notes}
             </div>
           )}
         </div>
 
         {/* Right: Calculation breakdown */}
-        <div className="space-y-1 text-right border-l border-gray-300 pl-4">
-          <div className="flex justify-between">
-            <span>Total Item Subtotal:</span>
-            <span>₹{sale.subtotal.toFixed(2)}</span>
+        <div className="border border-slate-300 rounded-sm p-2 bg-white space-y-1">
+          <div className="flex justify-between text-gray-700">
+            <span>Item Subtotal:</span>
+            <span>₹{subtotal}</span>
           </div>
-          {sale.total_discount > 0 && (
-            <div className="flex justify-between text-green-700">
+          {discountNum > 0 && (
+            <div className="flex justify-between text-green-700 font-medium">
               <span>Total Discount:</span>
-              <span>-₹{sale.total_discount.toFixed(2)}</span>
+              <span>-₹{discount}</span>
             </div>
           )}
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-700">
             <span>CGST (Central Tax):</span>
-            <span>₹{(sale.tax_amount / 2).toFixed(2)}</span>
+            <span>₹{cgst}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-700">
             <span>SGST (State Tax):</span>
-            <span>₹{(sale.tax_amount / 2).toFixed(2)}</span>
+            <span>₹{sgst}</span>
           </div>
-          {sale.round_off !== 0 && (
+          {roundOffNum !== 0 && (
             <div className="flex justify-between text-gray-600">
               <span>Round Off:</span>
-              <span>₹{sale.round_off.toFixed(2)}</span>
+              <span>{roundOffNum < 0 ? '-' : '+'}₹{Math.abs(roundOffNum).toFixed(2)}</span>
             </div>
           )}
-          <div className="flex justify-between text-sm font-bold border-t-2 border-black pt-1 mt-1 text-[#123F7A]">
+          <div className="flex justify-between text-sm font-extrabold border-t-2 border-[#123F7A] pt-1 mt-1 text-[#123F7A]">
             <span>GRAND TOTAL:</span>
-            <span>₹{sale.grand_total.toFixed(2)}</span>
+            <span>₹{grandTotal}</span>
           </div>
-          <div className="flex justify-between border-t border-dashed border-gray-300 pt-1 text-gray-800">
+          <div className="flex justify-between border-t border-dashed border-slate-300 pt-1 text-green-800 font-bold">
             <span>Amount Paid:</span>
-            <span className="font-semibold">₹{sale.paid_amount.toFixed(2)}</span>
+            <span>₹{paidAmount}</span>
           </div>
-          {sale.balance_due > 0 && (
-            <div className="flex justify-between font-bold text-[#D64545]">
+          {balanceDueNum > 0 && (
+            <div className="flex justify-between font-bold text-rose-600">
               <span>Credit Balance Due:</span>
-              <span>₹{sale.balance_due.toFixed(2)}</span>
+              <span>₹{balanceDue}</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Terms and Signature Grid */}
-      <div className="grid grid-cols-2 gap-4 border border-black p-3 text-[10px]">
+      <div className="grid grid-cols-2 gap-3 border border-slate-300 rounded-sm p-2 bg-slate-50/80 text-[9px]">
         <div>
-          <div className="font-bold border-b border-gray-300 pb-0.5 mb-1">Terms & Conditions:</div>
-          <p className="whitespace-pre-line text-gray-700 leading-normal">
-            {settings.terms_and_conditions || '1. Goods once sold will not be returned.\n2. Store seed and chemical products in cool dry place.\n3. Subject to local jurisdiction.'}
+          <div className="font-bold text-[9px] text-gray-900 border-b border-slate-200 pb-0.5 mb-1">Terms & Conditions</div>
+          <p className="whitespace-pre-line text-gray-600 leading-normal">
+            {terms}
           </p>
         </div>
-        <div className="text-right flex flex-col justify-between h-20 pt-1">
-          <div>For <strong>{settings.store_name}</strong></div>
-          <div className="border-t border-black pt-1 inline-block w-44 self-end text-center font-semibold">
+        <div className="text-right flex flex-col justify-between h-14 pt-0.5">
+          <div className="text-gray-900 text-[9.5px]">For <strong>{storeName}</strong></div>
+          <div className="border-t border-gray-600 pt-1 inline-block w-36 self-end text-center font-bold text-gray-900">
             Authorized Signatory
           </div>
         </div>
